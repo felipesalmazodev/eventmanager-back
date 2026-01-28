@@ -1,6 +1,8 @@
 package com.zcam.eventmanager.place.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Place {
@@ -8,17 +10,37 @@ public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
     private String name;
-    @Column(unique = true)
+
+    @NotBlank
     private String code;
+
+    @NotBlank
+    private String cep;
+
+    @NotNull
     private int capacity;
+
+    @NotNull
+    private int number;
+
+    @NotNull
     private boolean available;
 
-    public Place(String name, String code, int capacity) {
+    private String complement;
+    private String reference;
+
+    public Place(String name, String code, int capacity, String cep, int number, String complement, String reference) {
         this.name = name;
         this.code = code;
         this.capacity = capacity;
         this.available = true;
+        this.cep = cep;
+        this.number = number;
+        this.complement = complement;
+        this.reference = reference;
     }
 
     @Deprecated
@@ -43,5 +65,21 @@ public class Place {
 
     public boolean isAvailable() {
         return available;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public String getComplement() {
+        return complement;
+    }
+
+    public String getReference() {
+        return reference;
     }
 }

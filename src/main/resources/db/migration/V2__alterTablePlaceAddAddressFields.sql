@@ -1,0 +1,5 @@
+ALTER TABLE place
+    ADD COLUMN cep VARCHAR(8) NOT NULL,
+    ADD COLUMN number INTEGER NOT NULL,
+    ADD COLUMN complement VARCHAR(120),
+    ADD COLUMN reference VARCHAR(120);
