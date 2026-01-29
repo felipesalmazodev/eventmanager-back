@@ -12,4 +12,6 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     boolean existsByCode(String code);
 
     boolean existsByCodeAndIdNot(String code, long id);
+
+    Optional<Place> findByCode(String code);
 }
