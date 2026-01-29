@@ -1,7 +1,9 @@
 package com.zcam.eventmanager.event.controller;
 
 import com.zcam.eventmanager.event.dto.EventCreateRequest;
+import com.zcam.eventmanager.event.dto.EventDetailsDto;
 import com.zcam.eventmanager.event.dto.EventListDto;
+import com.zcam.eventmanager.event.dto.EventUpdateRequest;
 import com.zcam.eventmanager.event.model.Event;
 import com.zcam.eventmanager.event.service.EventService;
 import jakarta.validation.Valid;
@@ -31,20 +33,20 @@ public class EventController {
         return ResponseEntity.created(URI.create("/api/events/" + event.getId())).build();
     }
 
-//    @GetMapping("/api/events/{id}")
-//    public ResponseEntity<PlaceDetailsDto> getPlaceDetails(@PathVariable long id) {
-//        return ResponseEntity.ok(eventService.getPlaceDetails(id));
-//    }
-//
-//    @PutMapping("/api/events/update/{id}")
-//    public ResponseEntity<?> update(@Valid @RequestBody PlaceUpdateRequest request, @PathVariable long id) {
-//        eventService.updatePlace(request, id);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @DeleteMapping("/api/events/delete/{id}")
-//    public ResponseEntity<?> delete(@PathVariable long id) {
-//        eventService.deletePlace(id);
-//        return ResponseEntity.ok().build();
-//    }
+    @GetMapping("/api/events/{id}")
+    public ResponseEntity<EventDetailsDto> getEventDetails(@PathVariable long id) {
+        return ResponseEntity.ok(eventService.getEventDetails(id));
+    }
+
+    @PutMapping("/api/events/update/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody EventUpdateRequest request, @PathVariable long id) {
+        eventService.updateEvent(request, id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/api/events/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable long id) {
+        eventService.deleteEvent(id);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -1,10 +1,7 @@
 package com.zcam.eventmanager.event.dto;
 
 import com.zcam.eventmanager.event.model.Event;
-import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -24,6 +21,9 @@ public record EventCreateRequest(
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         LocalDateTime finishesAt,
 
+        @NotBlank
+        @Pattern(regexp = "^[A-Za-z0-9]+$", message = "Only numbers and letters are permitted")
+        @Size(max = 255)
         String placeCode,
 
         @Size(max = 255)

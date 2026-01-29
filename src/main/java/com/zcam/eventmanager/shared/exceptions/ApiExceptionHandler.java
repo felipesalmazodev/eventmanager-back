@@ -57,4 +57,26 @@ public class ApiExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
+
+    @ExceptionHandler(DateMismatchException.class)
+    public ResponseEntity<ApiErrorResponse> handleDateMismatch(DateMismatchException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                Map.of("dates", List.of(ex.getMessage()))
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(PlaceUnavailabilityException.class)
+    public ResponseEntity<ApiErrorResponse> handlePlaceUnavailability(PlaceUnavailabilityException ex) {
+        ApiErrorResponse response = new ApiErrorResponse(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                Map.of("place", List.of(ex.getMessage()))
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 }
