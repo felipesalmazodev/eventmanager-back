@@ -3,6 +3,7 @@ package com.zcam.eventmanager.place.dto;
 import com.zcam.eventmanager.place.model.Place;
 
 public record PlaceListDto(
+        Long id,
         String name,
         String code,
         int capacity,
@@ -10,6 +11,6 @@ public record PlaceListDto(
         String cep
 ) {
     public PlaceListDto(Place place) {
-        this(place.getName(), place.getCode(), place.getCapacity(), place.isAvailable(), place.getCep());
+        this(place.getId(), place.getName(), place.getCode(), place.getCapacity(), place.isAvailable(), place.getCep());
     }
 }

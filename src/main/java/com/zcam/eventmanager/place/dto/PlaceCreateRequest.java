@@ -1,5 +1,6 @@
 package com.zcam.eventmanager.place.dto;
 
+import com.zcam.eventmanager.place.model.Place;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -28,4 +29,15 @@ public record PlaceCreateRequest(
         String complement,
         String reference
 ) {
+        public Place toEntity() {
+                return new Place(
+                        name,
+                        code,
+                        capacity,
+                        cep,
+                        number,
+                        complement,
+                        reference
+                );
+        }
 }

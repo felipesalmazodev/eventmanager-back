@@ -1,5 +1,6 @@
 package com.zcam.eventmanager.place.model;
 
+import com.zcam.eventmanager.place.dto.PlaceUpdateRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -41,6 +42,19 @@ public class Place {
         this.number = number;
         this.complement = complement;
         this.reference = reference;
+    }
+
+    public Place update(PlaceUpdateRequest request) {
+        this.name = request.name();
+        this.code = request.code();
+        this.capacity = request.capacity();
+        this.available = request.available();
+        this.cep = request.cep();
+        this.number = request.number();
+        this.complement = request.complement();
+        this.reference = request.reference();
+
+        return this;
     }
 
     @Deprecated
