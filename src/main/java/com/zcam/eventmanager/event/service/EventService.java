@@ -12,6 +12,7 @@ import com.zcam.eventmanager.place.repository.PlaceRepository;
 import com.zcam.eventmanager.shared.exceptions.DateMismatchException;
 import com.zcam.eventmanager.shared.exceptions.PlaceUnavailabilityException;
 import com.zcam.eventmanager.shared.exceptions.ResourceNotFoundException;
+import com.zcam.eventmanager.viacep.infra.service.ViaCepService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +24,13 @@ public class EventService {
     private final EventRepository eventRepository;
     private final PlaceRepository placeRepository;
     private final EventMapper eventMapper;
+    private final ViaCepService viaCepService;
 
-    public EventService(EventRepository eventRepository, PlaceRepository placeRepository, EventMapper eventMapper) {
+    public EventService(EventRepository eventRepository, PlaceRepository placeRepository, EventMapper eventMapper, ViaCepService viaCepService) {
         this.eventRepository = eventRepository;
         this.placeRepository = placeRepository;
         this.eventMapper = eventMapper;
+        this.viaCepService = viaCepService;
     }
 
     public List<EventListDto> getAllEvents() {
@@ -48,7 +51,7 @@ public class EventService {
         return eventRepository.save(eventMapper.toEntity(request, place));
     }
 
-    public EventDetailsDto getEventDetails(long id) {
+    public EventDetailsDto getEventDetails(long id, boolean enrichPlace) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Event with id '%s' doesn't exists".formatted(id)));
         return eventMapper.toEventDetailsDto(event);
     }

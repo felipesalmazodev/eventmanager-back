@@ -34,8 +34,8 @@ public class EventController {
     }
 
     @GetMapping("/api/events/{id}")
-    public ResponseEntity<EventDetailsDto> getEventDetails(@PathVariable long id) {
-        return ResponseEntity.ok(eventService.getEventDetails(id));
+    public ResponseEntity<EventDetailsDto> getEventDetails(@PathVariable long id, @RequestParam(defaultValue = "false") boolean enrichPlace) {
+        return ResponseEntity.ok(eventService.getEventDetails(id, enrichPlace));
     }
 
     @PutMapping("/api/events/update/{id}")
