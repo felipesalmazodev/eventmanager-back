@@ -44,21 +44,19 @@ public class Place {
         this.reference = reference;
     }
 
-    public Place update(PlaceUpdateRequest request) {
-        this.name = request.name();
-        this.code = request.code();
-        this.capacity = request.capacity();
-        this.available = request.available();
-        this.cep = request.cep();
-        this.number = request.number();
-        this.complement = request.complement();
-        this.reference = request.reference();
-
-        return this;
-    }
-
     @Deprecated
     public Place() {
+    }
+
+    public void update(String name, String code, int capacity, boolean available, String cep, int number, String complement, String reference) {
+        this.name = name;
+        this.code = code;
+        this.capacity = capacity;
+        this.available = available;
+        this.cep = cep;
+        this.number = number;
+        this.complement = complement;
+        this.reference = reference;
     }
 
     public Long getId() {

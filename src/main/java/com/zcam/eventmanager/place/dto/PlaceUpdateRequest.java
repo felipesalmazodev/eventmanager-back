@@ -1,9 +1,6 @@
 package com.zcam.eventmanager.place.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public record PlaceUpdateRequest(
         @NotBlank(message = "This field is mandatory")
@@ -15,7 +12,7 @@ public record PlaceUpdateRequest(
         @Size(max = 255)
         String code,
 
-        @NotNull(message = "This field is mandatory")
+        @Min(value = 10, message = "The minimum capacity is 10")
         int capacity,
 
         @NotBlank(message = "This field is mandatory")

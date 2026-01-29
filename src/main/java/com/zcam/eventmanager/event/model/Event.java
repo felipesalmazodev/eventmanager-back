@@ -1,6 +1,5 @@
 package com.zcam.eventmanager.event.model;
 
-import com.zcam.eventmanager.event.dto.EventUpdateRequest;
 import com.zcam.eventmanager.place.model.Place;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -39,15 +38,17 @@ public class Event {
         this.description = description;
     }
 
-    public Event(String name, LocalDateTime startsAt, LocalDateTime finishesAt, String description) {
+    @Deprecated
+    public Event() {
+    }
+
+    public void update(String name, LocalDateTime startsAt, LocalDateTime finishesAt, String description, Place place) {
         this.name = name;
         this.startsAt = startsAt;
         this.finishesAt = finishesAt;
         this.description = description;
-    }
-
-    @Deprecated
-    public Event() {
+        this.updatedAt = LocalDateTime.now();
+        this.place = place;
     }
 
     public Long getId() {
@@ -80,23 +81,5 @@ public class Event {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public String getPlaceCode() {
-        return place.getCode();
-    }
-
-    public void setPlace(Place place) {
-        this.place = place;
-    }
-
-    public Event update(EventUpdateRequest request) {
-        this.name = request.name();
-        this.startsAt = request.startsAt();
-        this.finishesAt = request.finishesAt();
-        this.description = request.description();
-        this.updatedAt = LocalDateTime.now();
-
-        return this;
     }
 }

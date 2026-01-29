@@ -4,6 +4,7 @@ import com.zcam.eventmanager.place.dto.PlaceCreateRequest;
 import com.zcam.eventmanager.place.dto.PlaceDetailsDto;
 import com.zcam.eventmanager.place.dto.PlaceListDto;
 import com.zcam.eventmanager.place.dto.PlaceUpdateRequest;
+import com.zcam.eventmanager.place.mapper.PlaceMapper;
 import com.zcam.eventmanager.place.model.Place;
 import com.zcam.eventmanager.place.repository.PlaceRepository;
 import com.zcam.eventmanager.shared.exceptions.DuplicateResourceException;
@@ -16,13 +17,15 @@ import java.util.List;
 public class PlaceService {
 
     private final PlaceRepository placeRepository;
+    private final PlaceMapper placeMapper;
 
-    public PlaceService(PlaceRepository placeRepository) {
+    public PlaceService(PlaceRepository placeRepository, PlaceMapper placeMapper) {
         this.placeRepository = placeRepository;
+        this.placeMapper = placeMapper;
     }
 
     public List<PlaceListDto> getAllPlaces() {
-        return placeRepository.findAll().stream().map(PlaceListDto::new).toList();
+        return placeRepository.findAll().stream().map(placeMapper::toPlaceListDto).toList();
     }
 
     public Place createPlace(PlaceCreateRequest request) {
@@ -30,18 +33,19 @@ public class PlaceService {
             throw new DuplicateResourceException("Place with code '%s' already exists".formatted(request.code()));
         }
 
-        return placeRepository.save(request.toEntity());
+        return placeRepository.save(placeMapper.toEntity(request));
     }
 
     public PlaceDetailsDto getPlaceDetails(Long id) {
         Place place = placeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Place with id '%s' doesn't exists".formatted(id)));
-        return new PlaceDetailsDto(place);
+        return placeMapper.toPlaceDetailsDto(place);
     }
 
     public void updatePlace(PlaceUpdateRequest request, Long id) {
         if(!placeRepository.existsByCodeAndIdNot(request.code(), id)){
             Place place = placeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Place with id '%s' doesn't exists".formatted(id)));
-            placeRepository.save(place.update(request));
+            placeMapper.applyUpdate(place, request);
+            placeRepository.save(place);
         } else {
             throw new DuplicateResourceException("Place with code '%s' already exists".formatted(request.code()));
         }

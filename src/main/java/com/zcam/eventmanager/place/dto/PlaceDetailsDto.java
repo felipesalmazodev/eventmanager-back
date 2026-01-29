@@ -1,7 +1,5 @@
 package com.zcam.eventmanager.place.dto;
 
-import com.zcam.eventmanager.place.model.Place;
-
 public record PlaceDetailsDto(
         String name,
         String code,
@@ -12,7 +10,4 @@ public record PlaceDetailsDto(
         String complement,
         String reference
 ) {
-    public PlaceDetailsDto(Place place) {
-       this(place.getName(), place.getCode(), place.getCep(), place.getCapacity(), place.getNumber(), place.isAvailable(), place.getComplement(), place.getReference());
-    }
 }

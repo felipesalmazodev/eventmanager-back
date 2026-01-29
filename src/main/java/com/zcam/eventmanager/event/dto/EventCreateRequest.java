@@ -1,6 +1,5 @@
 package com.zcam.eventmanager.event.dto;
 
-import com.zcam.eventmanager.event.model.Event;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -29,12 +28,4 @@ public record EventCreateRequest(
         @Size(max = 255)
         String description
 ) {
-    public Event toEntity() {
-        return new Event(
-                name,
-                startsAt,
-                finishesAt,
-                description
-        );
-    }
 }
