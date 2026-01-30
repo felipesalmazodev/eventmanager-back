@@ -1,5 +1,6 @@
 package com.zcam.eventmanager.event.controller;
 
+import com.zcam.eventmanager.event.controller.documentation.EventDocumentation;
 import com.zcam.eventmanager.event.dto.EventCreateRequest;
 import com.zcam.eventmanager.event.dto.EventDetailsDto;
 import com.zcam.eventmanager.event.dto.EventListDto;
@@ -14,14 +15,14 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-public class EventController {
+public class EventController implements EventDocumentation {
     
     private final EventService eventService;
 
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
-    
+
     @GetMapping("/api/events")
     public ResponseEntity<List<EventListDto>> getAllEvents() {
         return ResponseEntity.ok(eventService.getAllEvents());

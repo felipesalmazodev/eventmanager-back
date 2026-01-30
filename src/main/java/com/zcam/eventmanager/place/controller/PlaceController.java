@@ -1,11 +1,13 @@
 package com.zcam.eventmanager.place.controller;
 
+import com.zcam.eventmanager.place.controller.documentation.PlaceDocumentation;
 import com.zcam.eventmanager.place.dto.PlaceCreateRequest;
 import com.zcam.eventmanager.place.dto.PlaceDetailsDto;
 import com.zcam.eventmanager.place.dto.PlaceListDto;
 import com.zcam.eventmanager.place.dto.PlaceUpdateRequest;
 import com.zcam.eventmanager.place.model.Place;
 import com.zcam.eventmanager.place.service.PlaceService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-public class PlaceController {
+public class PlaceController implements PlaceDocumentation {
 
     private final PlaceService placeService;
 
