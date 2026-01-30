@@ -82,4 +82,8 @@ public class Event {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    public String getPlaceCep() {
+        return place.getCep();
+    }
 }

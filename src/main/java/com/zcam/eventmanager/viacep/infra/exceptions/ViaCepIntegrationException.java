@@ -1,4 +1,4 @@
-package com.zcam.eventmanager.viacep.exceptions;
+package com.zcam.eventmanager.viacep.infra.exceptions;
 
 public class ViaCepIntegrationException extends RuntimeException {
     public ViaCepIntegrationException(String message) {

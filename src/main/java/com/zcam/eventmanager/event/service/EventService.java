@@ -9,6 +9,8 @@ import com.zcam.eventmanager.event.model.Event;
 import com.zcam.eventmanager.event.repository.EventRepository;
 import com.zcam.eventmanager.place.model.Place;
 import com.zcam.eventmanager.place.repository.PlaceRepository;
+import com.zcam.eventmanager.placeaddress.document.PlaceAddress;
+import com.zcam.eventmanager.placeaddress.dto.PlaceAddressDto;
 import com.zcam.eventmanager.shared.exceptions.DateMismatchException;
 import com.zcam.eventmanager.shared.exceptions.PlaceUnavailabilityException;
 import com.zcam.eventmanager.shared.exceptions.ResourceNotFoundException;
@@ -53,7 +55,20 @@ public class EventService {
 
     public EventDetailsDto getEventDetails(long id, boolean enrichPlace) {
         Event event = eventRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Event with id '%s' doesn't exists".formatted(id)));
-        return eventMapper.toEventDetailsDto(event);
+
+        if (!enrichPlace) return eventMapper.toEventDetailsDto(event);
+
+        PlaceAddress placeAddress = viaCepService.fetchData(event.getPlaceCep());
+
+        PlaceAddressDto placeAddressDto = new PlaceAddressDto(
+                placeAddress.getCep(),
+                placeAddress.getLogradouro(),
+                placeAddress.getBairro(),
+                placeAddress.getLocalidade(),
+                placeAddress.getUf()
+        );
+
+        return eventMapper.toEventDetailsWithEnrichmentDto(event, placeAddressDto);
     }
 
     @Transactional

@@ -1,8 +1,8 @@
 package com.zcam.eventmanager.viacep.infra.client;
 
 import com.zcam.eventmanager.viacep.dto.ViaCepResponse;
-import com.zcam.eventmanager.viacep.exceptions.CepNotFoundException;
-import com.zcam.eventmanager.viacep.exceptions.ViaCepIntegrationException;
+import com.zcam.eventmanager.viacep.infra.exceptions.CepNotFoundException;
+import com.zcam.eventmanager.viacep.infra.exceptions.ViaCepIntegrationException;
 import com.zcam.eventmanager.viacep.utils.CepUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -36,7 +36,7 @@ public class ViaCepClient {
 
             ViaCepResponse body = response.getBody();
             if (body == null) {
-                throw new ViaCepIntegrationException("ViaCEP returned empty body for CEP: " + cep);
+                throw new ViaCepIntegrationException("ViaCEP returned empty body for CEP: %s".formatted(cep));
             }
 
             if (Boolean.TRUE.equals(body.getErro())) {
@@ -45,17 +45,11 @@ public class ViaCepClient {
 
             return body;
 
-        } catch (HttpClientErrorException e) {
-            throw new ViaCepIntegrationException("ViaCEP client error: " + e.getStatusCode() + " for CEP: " + cep, e);
-
-        } catch (HttpServerErrorException e) {
-            throw new ViaCepIntegrationException("ViaCEP server error: " + e.getStatusCode() + " for CEP: " + cep, e);
-
         } catch (ResourceAccessException e) {
-            throw new ViaCepIntegrationException("ViaCEP network/timeout error for CEP: " + cep, e);
+            throw new ViaCepIntegrationException("ViaCEP network/timeout error for CEP: %s".formatted(cep));
 
         } catch (RestClientException e) {
-            throw new ViaCepIntegrationException("ViaCEP unexpected error for CEP: " + cep, e);
+            throw new ViaCepIntegrationException("ViaCEP unexpected error for CEP: %s".formatted(cep));
         }
     }
 }

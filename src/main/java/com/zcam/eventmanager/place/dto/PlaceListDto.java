@@ -5,7 +5,6 @@ public record PlaceListDto(
         String name,
         String code,
         int capacity,
-        boolean available,
         String cep
 ) {
 }

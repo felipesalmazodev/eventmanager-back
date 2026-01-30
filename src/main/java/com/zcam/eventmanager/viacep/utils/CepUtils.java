@@ -1,6 +1,6 @@
 package com.zcam.eventmanager.viacep.utils;
 
-import com.zcam.eventmanager.viacep.exceptions.InvalidCepException;
+import com.zcam.eventmanager.viacep.infra.exceptions.InvalidCepException;
 
 public final class CepUtils {
 

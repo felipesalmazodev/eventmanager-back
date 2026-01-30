@@ -23,7 +23,6 @@ public record PlaceUpdateRequest(
         int number,
 
         String complement,
-        String reference,
-        boolean available
+        String reference
 ) {
 }

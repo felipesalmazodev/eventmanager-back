@@ -29,9 +29,6 @@ public class Place {
     @NotNull
     private int number;
 
-    @NotNull
-    private boolean available;
-
     private String complement;
     private String reference;
 
@@ -39,7 +36,6 @@ public class Place {
         this.name = name;
         this.code = code;
         this.capacity = capacity;
-        this.available = true;
         this.cep = cep;
         this.number = number;
         this.complement = complement;
@@ -50,11 +46,10 @@ public class Place {
     public Place() {
     }
 
-    public void update(String name, String code, int capacity, boolean available, String cep, int number, String complement, String reference) {
+    public void update(String name, String code, int capacity, String cep, int number, String complement, String reference) {
         this.name = name;
         this.code = code;
         this.capacity = capacity;
-        this.available = available;
         this.cep = cep;
         this.number = number;
         this.complement = complement;
@@ -75,10 +70,6 @@ public class Place {
 
     public int getCapacity() {
         return capacity;
-    }
-
-    public boolean isAvailable() {
-        return available;
     }
 
     public String getCep() {

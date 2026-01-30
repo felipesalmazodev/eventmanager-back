@@ -29,7 +29,6 @@ public class PlaceMapper {
                 place.getCep(),
                 place.getCapacity(),
                 place.getNumber(),
-                place.isAvailable(),
                 place.getComplement(),
                 place.getReference()
         );
@@ -41,7 +40,6 @@ public class PlaceMapper {
                 place.getName(),
                 place.getCode(),
                 place.getCapacity(),
-                place.isAvailable(),
                 place.getCep()
         );
     }
@@ -51,7 +49,6 @@ public class PlaceMapper {
                 request.name(),
                 request.code(),
                 request.capacity(),
-                request.available(),
                 request.cep(),
                 request.number(),
                 request.complement(),

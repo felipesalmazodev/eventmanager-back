@@ -6,7 +6,6 @@ public record PlaceDetailsDto(
         String cep,
         int capacity,
         int number,
-        boolean available,
         String complement,
         String reference
 ) {
