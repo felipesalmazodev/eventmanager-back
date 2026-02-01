@@ -7,12 +7,13 @@ import com.zcam.eventmanager.place.dto.PlaceListDto;
 import com.zcam.eventmanager.place.dto.PlaceUpdateRequest;
 import com.zcam.eventmanager.place.model.Place;
 import com.zcam.eventmanager.place.service.PlaceService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -50,6 +51,13 @@ public class PlaceController implements PlaceDocumentation {
     public ResponseEntity<?> delete(@PathVariable long id) {
         placeService.deletePlace(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/api/places/available")
+    public ResponseEntity<List<PlaceListDto>> getAvailablePlacesBetween(
+            @RequestParam() @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startsAt,
+            @RequestParam() @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime finishesAt) {
+        return ResponseEntity.ok(placeService.getAvailablePlacesIn(startsAt, finishesAt));
     }
 
 }

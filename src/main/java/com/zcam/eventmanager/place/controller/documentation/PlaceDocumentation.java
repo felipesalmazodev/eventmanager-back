@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Tag(name = "Places", description = "Place management endpoints")
@@ -143,4 +144,10 @@ public interface PlaceDocumentation {
             description = "Deletes a place from the Database"
     )
     ResponseEntity<?> delete(@Parameter(description = "Place ID") long id);
+
+    @Operation(
+            summary = "Returns a list of available places based on the start and finish date of a event"
+    )
+    ResponseEntity<List<PlaceListDto>> getAvailablePlacesBetween(@Parameter(description = "Event's start date") LocalDateTime startsAt,
+                                                                 @Parameter(description = "Event's finish date") LocalDateTime finishesAt);
 }

@@ -11,6 +11,7 @@ import com.zcam.eventmanager.shared.exceptions.DuplicateResourceException;
 import com.zcam.eventmanager.shared.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -53,5 +54,9 @@ public class PlaceService {
 
     public void deletePlace(long id) {
         placeRepository.deleteById(id);
+    }
+
+    public List<PlaceListDto> getAvailablePlacesIn(LocalDateTime startsAt, LocalDateTime finishesAt) {
+        return placeRepository.getAvailablePlacesIn(startsAt, finishesAt).stream().map(placeMapper::toPlaceListDto).toList();
     }
 }
