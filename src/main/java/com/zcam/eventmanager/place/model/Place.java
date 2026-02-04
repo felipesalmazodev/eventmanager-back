@@ -31,6 +31,7 @@ public class Place {
 
     private String complement;
     private String reference;
+    private boolean active;
 
     public Place(String name, String code, int capacity, String cep, int number, String complement, String reference) {
         this.name = name;
@@ -40,6 +41,7 @@ public class Place {
         this.number = number;
         this.complement = complement;
         this.reference = reference;
+        this.active = true;
     }
 
     @Deprecated
@@ -54,6 +56,10 @@ public class Place {
         this.number = number;
         this.complement = complement;
         this.reference = reference;
+    }
+
+    public void inactivate() {
+        this.active = false;
     }
 
     public Long getId() {
@@ -86,5 +92,9 @@ public class Place {
 
     public String getReference() {
         return reference;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

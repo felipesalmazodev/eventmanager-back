@@ -43,7 +43,7 @@ public class EventService {
     public Event createEvent(EventCreateRequest request) {
         if (request.finishesAt().isBefore(request.startsAt())) throw new DateMismatchException("The end date cannot be less than start date");
 
-        Place place = placeRepository.findByCode(request.placeCode())
+        Place place = placeRepository.findByCodeAndActiveTrue(request.placeCode())
                 .orElseThrow(() -> new ResourceNotFoundException("Place with code '%s' doesn't exists.".formatted(request.placeCode())));
 
         if (eventRepository.existsPlaceConflict(request.placeCode(), request.startsAt(), request.finishesAt())) {
@@ -77,7 +77,7 @@ public class EventService {
 
         Event event = eventRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Event with id '%s' doesn't exists".formatted(id)));
 
-        Place place = placeRepository.findByCode(request.placeCode())
+        Place place = placeRepository.findByCodeAndActiveTrue(request.placeCode())
                 .orElseThrow(() -> new ResourceNotFoundException("Place with code '%s' doesn't exists.".formatted(request.placeCode())));
 
         if (eventRepository.existsPlaceConflictExcludingEvent(request.placeCode(), id, request.startsAt(), request.finishesAt())) {

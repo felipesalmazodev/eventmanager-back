@@ -12,11 +12,13 @@ import java.util.Optional;
 @Repository
 public interface PlaceRepository extends JpaRepository<Place, Long> {
 
-    boolean existsByCode(String code);
+    boolean existsByCodeAndActiveTrue(String code);
 
-    boolean existsByCodeAndIdNot(String code, long id);
+    boolean existsByCodeAndIdNotAndActiveTrue(String code, long id);
 
-    Optional<Place> findByCode(String code);
+    Optional<Place> findByCodeAndActiveTrue(String code);
+
+    List<Place> findAllByActiveTrue();
 
     @Query(value = """
         SELECT *
@@ -27,7 +29,8 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
             WHERE e.place_id = p.id
               AND e.starts_at < :finishesAt
               AND e.finishes_at > :startsAt
-        );
+        )
+            AND p.active = true;
     """, nativeQuery = true)
     List<Place> getAvailablePlacesIn (LocalDateTime startsAt, LocalDateTime finishesAt);
 }

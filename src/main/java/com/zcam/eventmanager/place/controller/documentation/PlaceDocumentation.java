@@ -140,9 +140,33 @@ public interface PlaceDocumentation {
     ResponseEntity<?> update(PlaceUpdateRequest request, @Parameter(description = "Place ID") long id);
 
     @Operation(
-            summary = "Delete a place",
-            description = "Deletes a place from the Database"
+            summary = "Soft delete a place",
+            description = "Soft deletes a place making active = false"
     )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Not Found",
+                    content = @Content(
+                            schema = @Schema(implementation = ApiErrorResponse.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "ResourceNotFoundException",
+                                            summary = "When the place does not exists",
+                                            value = """
+                                                    {
+                                                         "timestamp": "2026-01-30T16:39:44.251562100Z",
+                                                         "status": 404,
+                                                         "errors": {
+                                                             "id": [
+                                                                 "Place with id 4 doesn't exists."
+                                                             ]
+                                                         }
+                                                     }
+                                                    """
+                                    )
+                            }
+                    ))
+    })
     ResponseEntity<?> delete(@Parameter(description = "Place ID") long id);
 
     @Operation(

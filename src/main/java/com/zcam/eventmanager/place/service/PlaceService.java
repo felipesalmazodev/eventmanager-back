@@ -26,11 +26,11 @@ public class PlaceService {
     }
 
     public List<PlaceListDto> getAllPlaces() {
-        return placeRepository.findAll().stream().map(placeMapper::toPlaceListDto).toList();
+        return placeRepository.findAllByActiveTrue().stream().map(placeMapper::toPlaceListDto).toList();
     }
 
     public Place createPlace(PlaceCreateRequest request) {
-        if (placeRepository.existsByCode(request.code())) {
+        if (placeRepository.existsByCodeAndActiveTrue(request.code())) {
             throw new DuplicateResourceException("Place with code '%s' already exists".formatted(request.code()));
         }
 
@@ -43,7 +43,7 @@ public class PlaceService {
     }
 
     public void updatePlace(PlaceUpdateRequest request, Long id) {
-        if(!placeRepository.existsByCodeAndIdNot(request.code(), id)){
+        if(!placeRepository.existsByCodeAndIdNotAndActiveTrue(request.code(), id)){
             Place place = placeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Place with id '%s' doesn't exists".formatted(id)));
             placeMapper.applyUpdate(place, request);
             placeRepository.save(place);
@@ -53,7 +53,9 @@ public class PlaceService {
     }
 
     public void deletePlace(long id) {
-        placeRepository.deleteById(id);
+        Place place = placeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Place with id '%s' doesn't exists".formatted(id)));
+        place.inactivate();
+        placeRepository.save(place);
     }
 
     public List<PlaceListDto> getAvailablePlacesIn(LocalDateTime startsAt, LocalDateTime finishesAt) {
