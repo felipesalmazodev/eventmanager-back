@@ -26,7 +26,7 @@ public class ViaCepService {
 
         ViaCepResponse response = viaCepClient.doRequest(normalizedCep);
 
-        PlaceAddress doc = placeAddressRepository.findByCep(normalizedCep).orElseGet(PlaceAddress::new);
+        PlaceAddress doc = new PlaceAddress();
         doc.setCep(normalizedCep);
         doc.setLogradouro(response.getLogradouro());
         doc.setBairro(response.getBairro());

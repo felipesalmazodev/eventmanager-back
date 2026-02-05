@@ -11,6 +11,7 @@ import com.zcam.eventmanager.place.model.Place;
 import com.zcam.eventmanager.place.repository.PlaceRepository;
 import com.zcam.eventmanager.placeaddress.document.PlaceAddress;
 import com.zcam.eventmanager.placeaddress.dto.PlaceAddressDto;
+import com.zcam.eventmanager.placeaddress.repository.PlaceAddressRepository;
 import com.zcam.eventmanager.shared.exceptions.DateMismatchException;
 import com.zcam.eventmanager.shared.exceptions.PlaceUnavailabilityException;
 import com.zcam.eventmanager.shared.exceptions.ResourceNotFoundException;
@@ -27,12 +28,14 @@ public class EventService {
     private final PlaceRepository placeRepository;
     private final EventMapper eventMapper;
     private final ViaCepService viaCepService;
+    private final PlaceAddressRepository placeAddressRepository;
 
-    public EventService(EventRepository eventRepository, PlaceRepository placeRepository, EventMapper eventMapper, ViaCepService viaCepService) {
+    public EventService(EventRepository eventRepository, PlaceRepository placeRepository, EventMapper eventMapper, ViaCepService viaCepService, PlaceAddressRepository placeAddressRepository) {
         this.eventRepository = eventRepository;
         this.placeRepository = placeRepository;
         this.eventMapper = eventMapper;
         this.viaCepService = viaCepService;
+        this.placeAddressRepository = placeAddressRepository;
     }
 
     public List<EventListDto> getAllEvents() {
@@ -58,7 +61,8 @@ public class EventService {
 
         if (!enrichPlace) return eventMapper.toEventDetailsDto(event);
 
-        PlaceAddress placeAddress = viaCepService.fetchData(event.getPlaceCep());
+        PlaceAddress placeAddress = placeAddressRepository.findByCep(event.getPlaceCep())
+                .orElseGet(() -> viaCepService.fetchData(event.getPlaceCep()));
 
         PlaceAddressDto placeAddressDto = new PlaceAddressDto(
                 placeAddress.getCep(),
