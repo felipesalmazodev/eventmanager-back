@@ -4,6 +4,7 @@ import com.zcam.eventmanager.viacep.dto.ViaCepResponse;
 import com.zcam.eventmanager.viacep.infra.exceptions.CepNotFoundException;
 import com.zcam.eventmanager.viacep.infra.exceptions.ViaCepIntegrationException;
 import com.zcam.eventmanager.viacep.utils.CepUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.*;
@@ -13,11 +14,12 @@ import java.net.URI;
 
 @Component
 public class ViaCepClient {
-    private static final String BASE_URL = "https://viacep.com.br/ws";
-
+    
+    private final String baseUrl;
     private final RestTemplate restTemplate;
 
-    public ViaCepClient(RestTemplate viaCepRestTemplate) {
+    public ViaCepClient(@Value("${viacep.client.base.url}") String baseUrl, RestTemplate viaCepRestTemplate) {
+        this.baseUrl = baseUrl;
         this.restTemplate = viaCepRestTemplate;
     }
 
@@ -26,7 +28,7 @@ public class ViaCepClient {
         CepUtils.validateOrThrow(cep);
 
         URI uri = UriComponentsBuilder
-                .fromUriString(BASE_URL)
+                .fromUriString(baseUrl)
                 .pathSegment(cep, "json")
                 .build()
                 .toUri();
