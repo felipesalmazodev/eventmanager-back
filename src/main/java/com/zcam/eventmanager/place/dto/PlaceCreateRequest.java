@@ -18,7 +18,7 @@ public record PlaceCreateRequest(
         String code,
 
         @Schema(description = "Maximum capacity of the place", example = "150")
-        @NotNull
+        @NotNull(message = "This field is mandatory")
         @Min(value = 10, message = "The minimum capacity is 10")
         Integer capacity,
 

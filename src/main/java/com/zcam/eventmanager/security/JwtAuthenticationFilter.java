@@ -50,7 +50,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             var authentication = new UsernamePasswordAuthenticationToken(subject, null, authorities);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            SecurityContextHolder.clearContext();
+            System.out.println("[JWT] invalid token: " + e.getMessage());
+        }
 
         filterChain.doFilter(request, response);
     }
