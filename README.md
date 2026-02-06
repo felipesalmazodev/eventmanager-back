@@ -65,8 +65,6 @@ Then edit `.env` and fill in the required values, especially:
 - `GOOGLE_OAUTH_CLIENT_ID`
 - `GOOGLE_OAUTH_CLIENT_SECRET`
 - `JWT_SECRET` (must be at least 32 characters for HS256)
-- `OAUTH2_SUCCESS_REDIRECT`
-- `CORS_ALLOWED_ORIGINS`
 
 Example (simplified):
 
@@ -130,7 +128,7 @@ This will start:
 - MongoDB
 - The Spring Boot application
 
-Make sure your `.env` file exists, then run:
+Make sure your `.env` file exists and you have changed the URLs of the databases from localhost to the name of the container (is commented on the `.env.example`), then run:
 
 ```bash
 docker compose --profile full up --build
@@ -222,6 +220,12 @@ You can test the application manually using **Swagger UI**, **Postman**, or any 
 - Create or update a Place using a valid Brazilian CEP.
 - The application should automatically call ViaCEP to validate/enrich the address data.
 - Try an invalid CEP to verify that the API returns a proper validation or integration error.
+- These are some valid CEPs:
+  -  **01001000** --- Praça da Sé, São Paulo - SP
+  - **20040002** --- Centro, Rio de Janeiro - RJ
+  -  **30140071** --- Belo Horizonte - MG
+  -  **70040900** --- Brasília - DF
+  -  **80010000** --- Curitiba - PR
 
 ### 4. Typical Test Scenarios
 
